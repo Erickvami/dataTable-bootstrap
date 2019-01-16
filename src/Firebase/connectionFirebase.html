@@ -1,0 +1,47 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+    </head>
+    <body>
+    <ul id="values"></ul>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAVxeL_3pxm8hNn0P4xobVu1m9hUmx1WWc",
+    authDomain: "example1-6f0a9.firebaseapp.com",
+    databaseURL: "https://example1-6f0a9.firebaseio.com",
+    projectId: "example1-6f0a9",
+    storageBucket: "example1-6f0a9.appspot.com",
+    messagingSenderId: "357685722626"
+  };
+  firebase.initializeApp(config);
+  var dbObject=firebase.database().ref().child('Users');//.children('Shops');
+    dbObject.on('value',snap=>{
+        var data= snap.val();
+        var x=[];
+        snap.forEach(function(s){
+            //console.log(s.child('Shops').val());
+            if(s.child('Shops').val()!==null){
+                var shops= s.child('Shops').val().map(v=>{ v.customer=s.val().Name; return v;});
+            x=x.concat(shops);
+            }
+        });
+        console.log(x);
+        console.log(data);
+    });
+    
+    
+    
+function Query(nodo){
+    var dbObject=firebase.database().ref().child('Shops');
+    return dbObject.on('value',snap=>{
+        var data= snap.val();
+        console.log(data);
+        return data;
+    });
+}
+
+</script>
+    </body>
+</html>
